@@ -1,9 +1,9 @@
-# Change Openshift Error page
+## Change Openshift Error page
 
 # ConfigMap
 
-```
 cat haproxy-error-page.yaml
+```
 apiVersion: v1
 data:
   error-page-503.http: |-
@@ -21,11 +21,18 @@ metadata:
 ```
 
 # Create ConfigMaps
+
+```
  oc -n default create -f haproxy-error-page.yml
+```
 
 # Mount ConfigMaps like volume
+```
  oc -n default set volume --add --configmap-name=haproxy-error-page dc/router -m /var/lib/haproxy/conf/error-page-503.http --name=haproxy-config-volume
+```
 
 # Patch deploymentconfig
+```
  oc -n default patch dc router -p '{"spec":{"template":{"spec":{"containers":[{"volumeMounts":[{"mountPath":"/var/lib/haproxy/conf/error-page-503.http","subPath":"error-page-503.http","name":"haproxy-config-volume"}],"name":"router"}]}}}}'
+```
 
