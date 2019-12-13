@@ -1,0 +1,14 @@
+apiVersion: v1
+data:
+  error-page-503.http: |-
+    HTTP/1.0 503 Service Unavailable
+    Pragma: no-cache
+    Cache-Control: private, max-age=0, no-cache, no-store
+    Connection: close
+    Content-Type: text/html
+ 
+    <html><head><body>Volve pronto!!</body></head></html>
+kind: ConfigMap
+metadata:
+  name: haproxy-error-page
+  namespace: default
